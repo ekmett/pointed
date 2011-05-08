@@ -20,6 +20,7 @@ import Control.Monad.Trans.Error
 import Control.Monad.Trans.List
 import Control.Monad.Trans.Maybe
 import Control.Monad.Trans.Identity
+import Data.List.NonEmpty
 import qualified Control.Monad.Trans.RWS.Lazy as Lazy
 import qualified Control.Monad.Trans.RWS.Strict as Strict
 import qualified Control.Monad.Trans.Writer.Lazy as Lazy
@@ -51,6 +52,9 @@ instance Pointed STM where
 
 instance Pointed Tree where
   point a = Node a []
+
+instance Pointed NonEmpty where
+  point a = a :| [] 
 
 instance Pointed ZipList where
   point = pure

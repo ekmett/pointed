@@ -19,6 +19,7 @@ import qualified Control.Comonad.Trans.Env.Strict as Strict
 import qualified Control.Comonad.Trans.Store.Lazy as Lazy
 import qualified Control.Comonad.Trans.Store.Memo as Memo
 import qualified Control.Comonad.Trans.Store.Strict as Strict
+import Data.List.NonEmpty (NonEmpty(..))
 
 -- | 'Copointed' does not require a 'Functor', as the only relationship
 -- between 'copoint' and 'fmap' is given by a free theorem.
@@ -64,6 +65,9 @@ instance Copointed Dual where
 
 instance Copointed Sum where
   copoint = getSum
+
+instance Copointed NonEmpty where
+  copoint ~(a :| _) = a
 
 instance Copointed Semigroup.First where
   copoint = Semigroup.getFirst
