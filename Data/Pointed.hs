@@ -29,9 +29,6 @@ import qualified Control.Monad.Trans.State.Lazy as Lazy
 import qualified Control.Monad.Trans.State.Strict as Strict
 import Data.Semigroupoid.Static
 
--- | 'Pointed' does not require a 'Functor', as the only relationship
--- between 'point' and 'fmap' is given by a free theorem.
-
 class Pointed p where
   point :: a -> p a
 
