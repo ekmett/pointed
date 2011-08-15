@@ -9,8 +9,8 @@ maintainer:    Edward A. Kmett <ekmett@gmail.com>
 stability:     provisional
 homepage:      http://github.com/ekmett/pointed/
 copyright:     Copyright (C) 2008-2011 Edward A. Kmett
-synopsis:      Haskell 98 Pointed and copointed data
-description:   Haskell 98 Pointed and copointed data
+synopsis:      Haskell 98 pointed and copointed data
+description:   Haskell 98 pointed and copointed data
 build-type:    Simple
 
 source-repository head
