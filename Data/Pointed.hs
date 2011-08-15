@@ -20,6 +20,7 @@ import Control.Monad.Trans.Error
 import Control.Monad.Trans.List
 import Control.Monad.Trans.Maybe
 import Control.Monad.Trans.Identity
+import Control.Monad.Trans.Reader
 import Data.List.NonEmpty
 import qualified Control.Monad.Trans.RWS.Lazy as Lazy
 import qualified Control.Monad.Trans.RWS.Strict as Strict
@@ -133,6 +134,9 @@ instance Pointed m => Pointed (ListT m) where
 
 instance Pointed m => Pointed (MaybeT m) where
   point = MaybeT . point . point
+
+instance Pointed m => Pointed (ReaderT r m) where
+  point = ReaderT . const . point
 
 instance (Default w, Pointed m) => Pointed (Lazy.RWST r w s m) where
   point a = Lazy.RWST $ \_ s -> point (a, s, def)
