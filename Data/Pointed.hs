@@ -4,7 +4,7 @@ import Control.Arrow
 import Control.Applicative
 import Control.Concurrent.STM
 import Data.Default
-import Data.Monoid as Monoid
+import qualified Data.Monoid as Monoid
 import Data.Semigroup as Semigroup
 import Data.Functor.Identity
 import Data.Sequence (Seq)

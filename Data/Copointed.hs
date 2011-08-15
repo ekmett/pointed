@@ -6,7 +6,6 @@ import Data.Functor.Identity
 import Data.Functor.Compose
 import Data.Functor.Coproduct
 import Data.Tree
-import Data.Monoid as Monoid
 import Data.Semigroup as Semigroup
 import Control.Monad.Trans.Identity
 import qualified Control.Monad.Trans.Writer.Lazy as Lazy
