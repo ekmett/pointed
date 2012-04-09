@@ -41,7 +41,7 @@ instance Pointed Maybe where
 
 instance Pointed (Either a) where
   point = Right
-  
+
 instance Pointed IO where
   point = return
 
@@ -52,7 +52,7 @@ instance Pointed Tree where
   point a = Node a []
 
 instance Pointed NonEmpty where
-  point a = a :| [] 
+  point a = a :| []
 
 instance Pointed ZipList where
   point = pure
@@ -67,7 +67,7 @@ instance Default e => Pointed ((,)e) where
   point = (,) def
 
 instance Monad m => Pointed (WrappedMonad m) where
-  point = WrapMonad . return 
+  point = WrapMonad . return
 
 instance Default m => Pointed (Const m) where
   point _ = Const def
@@ -117,7 +117,7 @@ instance (Pointed p, Pointed q) => Pointed (Compose p q) where
 instance (Pointed p, Pointed q) => Pointed (Functor.Product p q) where
   point a = Functor.Pair (point a) (point a)
 
-instance Default m => Pointed (Constant m) where 
+instance Default m => Pointed (Constant m) where
   point _ = Constant def
 
 instance Pointed (ContT r m) where
@@ -151,7 +151,7 @@ instance (Default w, Pointed m) => Pointed (Strict.WriterT w m) where
   point a = Strict.WriterT $ point (a, def)
 
 instance Pointed m => Pointed (Lazy.StateT s m) where
-  point a = Lazy.StateT $ \s -> point (a, s) 
+  point a = Lazy.StateT $ \s -> point (a, s)
 
 instance Pointed m => Pointed (Strict.StateT s m) where
   point a = Strict.StateT $ \s -> point (a, s)
