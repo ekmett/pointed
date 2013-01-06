@@ -1,6 +1,6 @@
 name:          pointed
 category:      Data
-version:       3.0.1
+version:       3.0.2
 license:       BSD3
 cabal-version: >= 1.6
 license-file:  LICENSE
@@ -24,11 +24,11 @@ library
     base                 >= 4       && < 5,
     transformers         >= 0.2     && < 0.4,
     containers           >= 0.4     && < 0.6,
-    comonad              >= 3.0     && < 3.1,
-    comonad-transformers >= 3.0     && < 3.1,
+    comonad              >= 3.0,
+    comonad-transformers >= 3.0,
     data-default         >= 0.4     && < 0.6,
-    semigroups           >= 0.8.3.1 && < 0.9,
-    semigroupoids        >= 3.0     && < 3.1,
+    semigroups           >= 0.8.3.1,
+    semigroupoids        >= 3.0,
     stm                  >= 2.1.2.1 && < 2.5
 
   exposed-modules:
@@ -36,3 +36,4 @@ library
     Data.Copointed
 
   ghc-options: -Wall
+  hs-source-dirs: src
