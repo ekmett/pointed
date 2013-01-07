@@ -24,11 +24,11 @@ library
     base                 >= 4       && < 5,
     transformers         >= 0.2     && < 0.4,
     containers           >= 0.4     && < 0.6,
-    comonad              >= 3.0,
-    comonad-transformers >= 3.0,
+    comonad              >= 3,
+    comonad-transformers >= 3,
     data-default         >= 0.4     && < 0.6,
     semigroups           >= 0.8.3.1,
-    semigroupoids        >= 3.0,
+    semigroupoids        >= 3,
     stm                  >= 2.1.2.1 && < 2.5
 
   exposed-modules:
