@@ -17,12 +17,16 @@ import Control.Comonad.Trans.Env
 import Control.Comonad.Trans.Store
 import Control.Comonad.Trans.Traced
 import Data.List.NonEmpty (NonEmpty(..))
+import Data.Tagged
 
 -- | 'Copointed' does not require a 'Functor', as the only relationship
 -- between 'copoint' and 'fmap' is given by a free theorem.
 
 class Copointed p where
   copoint :: p a -> a
+
+instance Copointed (Tagged a) where
+  copoint = unTagged
 
 instance Copointed Identity where
   copoint = runIdentity

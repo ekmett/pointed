@@ -33,9 +33,17 @@ import qualified Control.Monad.Trans.Writer.Strict as Strict
 import qualified Control.Monad.Trans.State.Lazy as Lazy
 import qualified Control.Monad.Trans.State.Strict as Strict
 import Data.Semigroupoid.Static
+import Data.Tagged
+import Data.Proxy
 
 class Pointed p where
   point :: a -> p a
+
+instance Pointed Proxy where
+  point _ = Proxy
+
+instance Pointed (Tagged a) where
+  point = Tagged
 
 instance Pointed [] where
   point a = [a]
