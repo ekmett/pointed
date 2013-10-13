@@ -4,7 +4,7 @@
 #endif
 module Data.Copointed where
 
-import Data.Default
+import Data.Default.Class
 import Data.Functor.Identity
 import Data.Functor.Compose
 import Data.Functor.Coproduct

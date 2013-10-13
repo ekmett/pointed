@@ -1,6 +1,6 @@
 name:          pointed
 category:      Data
-version:       3.1
+version:       4.0
 license:       BSD3
 cabal-version: >= 1.6
 license-file:  LICENSE
@@ -9,9 +9,9 @@ maintainer:    Edward A. Kmett <ekmett@gmail.com>
 stability:     provisional
 homepage:      http://github.com/ekmett/pointed/
 bug-reports:   http://github.com/ekmett/pointed/issues
-copyright:     Copyright (C) 2008-2011 Edward A. Kmett
-synopsis:      Haskell 98 pointed and copointed data
-description:   Haskell 98 pointed and copointed data
+copyright:     Copyright (C) 2008-2013 Edward A. Kmett
+synopsis:      Pointed and copointed data
+description:   Pointed and copointed data
 build-type:    Simple
 extra-source-files: .travis.yml
 
@@ -24,11 +24,10 @@ library
     base                 >= 4       && < 5,
     transformers         >= 0.2     && < 0.4,
     containers           >= 0.4     && < 0.6,
-    comonad              >= 3       && < 4,
-    comonad-transformers >= 3       && < 4,
-    data-default         >= 0.4     && < 0.6,
+    comonad              >= 4       && < 5,
+    data-default-class   >= 0.0.1   && < 0.1,
     semigroups           >= 0.8.3.1 && < 1,
-    semigroupoids        >= 3       && < 4,
+    semigroupoids        >= 4       && < 5,
     stm                  >= 2.1.2.1 && < 2.5,
     tagged               >= 0.5     && < 1
 

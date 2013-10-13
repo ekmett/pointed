@@ -7,7 +7,7 @@ module Data.Pointed where
 import Control.Arrow
 import Control.Applicative
 import Control.Concurrent.STM
-import Data.Default
+import Data.Default.Class
 import qualified Data.Monoid as Monoid
 import Data.Semigroup as Semigroup
 import Data.Functor.Identity

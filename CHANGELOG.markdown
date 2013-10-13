@@ -1,3 +1,12 @@
+4.0
+---
+* Updated to use the 4.0 versions of `comonad` and `semigroupoids` packages
+* Updated to use just `data-default-class`. Beware of orphans.
+
+3.1
+---
+* Added `Tagged` and `Proxy` instances.
+
 3.0.3
 -----
 * Claim to be Trustworthy
