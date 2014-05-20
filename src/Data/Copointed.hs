@@ -8,6 +8,9 @@ import Data.Default.Class
 import Data.Functor.Identity
 import Data.Functor.Compose
 import Data.Functor.Coproduct
+#if MIN_VERSION_transformers(0,4,0)
+import qualified Data.Functor.Sum as F
+#endif
 import Data.Tree
 import Data.Semigroup as Semigroup
 import Control.Monad.Trans.Identity
@@ -24,6 +27,12 @@ import Data.Tagged
 
 class Copointed p where
   copoint :: p a -> a
+
+#if MIN_VERSION_transformers(0,4,0)
+instance (Copointed f, Copointed g) => Copointed (F.Sum f g) where
+  copoint (F.InL m) = copoint m
+  copoint (F.InR m) = copoint m
+#endif
 
 instance Copointed (Tagged a) where
   copoint = unTagged
