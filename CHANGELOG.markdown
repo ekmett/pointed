@@ -1,3 +1,7 @@
+4.1
+---
+* Added missing instances for transformers 0.4 types
+
 4.0
 ---
 * Updated to use the 4.0 versions of `comonad` and `semigroupoids` packages
