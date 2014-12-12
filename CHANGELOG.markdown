@@ -1,3 +1,7 @@
+4.1.1
+---
+* Added transformers-compat dependency to loosen transformers dependency
+
 4.1
 ---
 * Added missing instances for transformers 0.4 types
