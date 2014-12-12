@@ -19,16 +19,12 @@ import qualified Data.Set as Set
 import Data.Functor.Constant
 import qualified Data.Functor.Product as Functor
 import Data.Functor.Compose
-#if MIN_VERSION_transformers(0,4,0)
 import Data.Functor.Reverse
 import Control.Applicative.Backwards
 import Control.Applicative.Lift
-#endif
 import Control.Monad.Trans.Cont
 import Control.Monad.Trans.Error
-#if MIN_VERSION_transformers(0,4,0)
 import Control.Monad.Trans.Except
-#endif
 import Control.Monad.Trans.List
 import Control.Monad.Trans.Maybe
 import Control.Monad.Trans.Identity
@@ -134,7 +130,6 @@ instance Pointed Set where
 instance (Pointed p, Pointed q) => Pointed (Compose p q) where
   point = Compose . point . point
 
-#if MIN_VERSION_transformers(0,4,0)
 instance Pointed f => Pointed (Reverse f) where
   point = Reverse . point
 
@@ -143,7 +138,6 @@ instance Pointed f => Pointed (Backwards f) where
 
 instance Pointed (Lift f) where
   point = Pure
-#endif
 
 instance (Pointed p, Pointed q) => Pointed (Functor.Product p q) where
   point a = Functor.Pair (point a) (point a)
@@ -157,10 +151,8 @@ instance Pointed (ContT r m) where
 instance Pointed m => Pointed (ErrorT e m) where
   point = ErrorT . point . Right
 
-#if MIN_VERSION_transformers(0,4,0)
 instance Pointed m => Pointed (ExceptT e m) where
   point = ExceptT . point . Right
-#endif
 
 instance Pointed m => Pointed (IdentityT m) where
   point = IdentityT . point
