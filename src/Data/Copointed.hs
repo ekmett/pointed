@@ -1,6 +1,7 @@
 {-# LANGUAGE CPP #-}
+{-# LANGUAGE TypeFamilies #-}
 #if defined(__GLASGOW_HASKELL__) && __GLASGOW_HASKELL__ >= 702
-{-# LANGUAGE Trustworthy #-}
+{-# LANGUAGE Safe #-}
 #endif
 module Data.Copointed where
 
@@ -8,6 +9,7 @@ import Data.Default.Class
 import Data.Functor.Identity
 import Data.Functor.Compose
 import Data.Functor.Coproduct
+import Data.Functor.Kan.Lift
 import qualified Data.Functor.Sum as F
 import Data.Tree
 import Data.Semigroup as Semigroup
@@ -59,6 +61,10 @@ instance (Copointed p, Copointed q) => Copointed (Compose p q) where
 
 instance (Copointed p, Copointed q) => Copointed (Coproduct p q) where
   copoint = coproduct copoint copoint
+
+instance (Functor g, g ~ h) => Copointed (Lift g h) where
+  copoint x = runIdentity (runLift x (fmap Identity))
+  {-# INLINE copoint #-}
 
 instance Copointed m => Copointed (IdentityT m) where
   copoint = copoint . runIdentityT

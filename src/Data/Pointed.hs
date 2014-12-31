@@ -1,6 +1,7 @@
 {-# LANGUAGE CPP #-}
+{-# LANGUAGE TypeFamilies #-}
 #if defined(__GLASGOW_HASKELL__) && __GLASGOW_HASKELL__ >= 702
-{-# LANGUAGE Trustworthy #-}
+{-# LANGUAGE Safe #-}
 #endif
 module Data.Pointed where
 
@@ -17,6 +18,7 @@ import Data.Tree (Tree(..))
 import Data.Set (Set)
 import qualified Data.Set as Set
 import Data.Functor.Constant
+import Data.Functor.Kan.Rift
 import qualified Data.Functor.Product as Functor
 import Data.Functor.Compose
 import Data.Functor.Reverse
@@ -138,6 +140,10 @@ instance Pointed f => Pointed (Backwards f) where
 
 instance Pointed (Lift f) where
   point = Pure
+
+instance (Functor g, g ~ h) => Pointed (Rift g h) where
+  point a = Rift (fmap ($a))
+  {-# INLINE point #-}
 
 instance (Pointed p, Pointed q) => Pointed (Functor.Product p q) where
   point a = Functor.Pair (point a) (point a)
