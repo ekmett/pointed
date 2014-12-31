@@ -1,3 +1,7 @@
+4.2
+---
+* Add dependency on kan-extensions for instances
+
 4.1.1
 ---
 * Added transformers-compat dependency to loosen transformers dependency
