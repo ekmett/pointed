@@ -13,7 +13,7 @@ import Data.Default.Class
 import qualified Data.Monoid as Monoid
 import Data.Semigroup as Semigroup
 import Data.Functor.Identity
-import Data.Sequence (Seq)
+import Data.Sequence (Seq, ViewL(..), ViewR(..))
 import qualified Data.Sequence as Seq
 import Data.Tree (Tree(..))
 import Data.Hashable
@@ -149,6 +149,12 @@ instance Default k => Pointed (Map k) where
 
 instance Pointed Seq where
   point = Seq.singleton
+
+instance Pointed ViewL where
+  point a = a :< Seq.empty
+
+instance Pointed ViewR where
+  point a = Seq.empty :> a
 
 instance Pointed Set where
   point = Set.singleton
