@@ -7,16 +7,23 @@ module Data.Pointed where
 
 import Control.Arrow
 import Control.Applicative
+import Control.Comonad
 import Control.Concurrent.STM
 import Data.Default.Class
 import qualified Data.Monoid as Monoid
 import Data.Semigroup as Semigroup
 import Data.Functor.Identity
-import Data.Sequence (Seq)
+import Data.Sequence (Seq, ViewL(..), ViewR(..))
 import qualified Data.Sequence as Seq
 import Data.Tree (Tree(..))
+import Data.Hashable
+import Data.HashMap.Lazy (HashMap)
+import qualified Data.HashMap.Lazy as HashMap
+import Data.Map (Map)
+import qualified Data.Map as Map
 import Data.Set (Set)
 import qualified Data.Set as Set
+import Data.Functor.Bind
 import Data.Functor.Constant
 import Data.Functor.Kan.Rift
 import qualified Data.Functor.Product as Functor
@@ -123,8 +130,31 @@ instance Pointed Semigroup.Max where
 instance Pointed Semigroup.Min where
   point = Semigroup.Min
 
+instance Pointed Option where
+  point = Option . Just
+
+instance Pointed WrappedMonoid where
+  point = WrapMonoid
+
+#if MIN_VERSION_semigroups(0,16,2)
+instance Default a => Pointed (Arg a) where
+  point = Arg def
+#endif
+
+instance (Default k, Hashable k) => Pointed (HashMap k) where
+  point = HashMap.singleton def
+
+instance Default k => Pointed (Map k) where
+  point = Map.singleton def
+
 instance Pointed Seq where
   point = Seq.singleton
+
+instance Pointed ViewL where
+  point a = a :< Seq.empty
+
+instance Pointed ViewR where
+  point a = Seq.empty :> a
 
 instance Pointed Set where
   point = Set.singleton
@@ -192,3 +222,12 @@ instance Pointed m => Pointed (Strict.StateT s m) where
 
 instance Pointed m => Pointed (Static m a) where
   point = Static . point . const
+
+instance Pointed (Cokleisli w a) where
+  point = Cokleisli . const
+
+instance Pointed f => Pointed (WrappedApplicative f) where
+  point = WrapApplicative . point
+
+instance Pointed (MaybeApply f) where
+  point = MaybeApply . Right
