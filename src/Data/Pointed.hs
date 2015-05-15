@@ -3,6 +3,7 @@
 #if defined(__GLASGOW_HASKELL__) && __GLASGOW_HASKELL__ >= 702
 {-# LANGUAGE Safe #-}
 #endif
+{-# OPTIONS_GHC -fno-warn-deprecations #-}
 module Data.Pointed where
 
 import Control.Arrow
