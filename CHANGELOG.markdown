@@ -1,6 +1,14 @@
-4.1.0.1
+4.2.0.1
 -------
 * Allow `semigroupoids` 5.
+
+4.2
+---
+* Add dependency on kan-extensions for instances
+
+4.1.1
+---
+* Added transformers-compat dependency to loosen transformers dependency
 
 4.1
 ---

@@ -1,34 +1,39 @@
 {-# LANGUAGE CPP #-}
+{-# LANGUAGE TypeFamilies #-}
 #if defined(__GLASGOW_HASKELL__) && __GLASGOW_HASKELL__ >= 702
-{-# LANGUAGE Trustworthy #-}
+{-# LANGUAGE Safe #-}
 #endif
 module Data.Pointed where
 
 import Control.Arrow
 import Control.Applicative
+import Control.Comonad
 import Control.Concurrent.STM
 import Data.Default.Class
 import qualified Data.Monoid as Monoid
 import Data.Semigroup as Semigroup
 import Data.Functor.Identity
-import Data.Sequence (Seq)
+import Data.Sequence (Seq, ViewL(..), ViewR(..))
 import qualified Data.Sequence as Seq
 import Data.Tree (Tree(..))
+import Data.Hashable
+import Data.HashMap.Lazy (HashMap)
+import qualified Data.HashMap.Lazy as HashMap
+import Data.Map (Map)
+import qualified Data.Map as Map
 import Data.Set (Set)
 import qualified Data.Set as Set
+import Data.Functor.Bind
 import Data.Functor.Constant
+import Data.Functor.Kan.Rift
 import qualified Data.Functor.Product as Functor
 import Data.Functor.Compose
-#if MIN_VERSION_transformers(0,4,0)
 import Data.Functor.Reverse
 import Control.Applicative.Backwards
 import Control.Applicative.Lift
-#endif
 import Control.Monad.Trans.Cont
 import Control.Monad.Trans.Error
-#if MIN_VERSION_transformers(0,4,0)
 import Control.Monad.Trans.Except
-#endif
 import Control.Monad.Trans.List
 import Control.Monad.Trans.Maybe
 import Control.Monad.Trans.Identity
@@ -125,8 +130,31 @@ instance Pointed Semigroup.Max where
 instance Pointed Semigroup.Min where
   point = Semigroup.Min
 
+instance Pointed Option where
+  point = Option . Just
+
+instance Pointed WrappedMonoid where
+  point = WrapMonoid
+
+#if MIN_VERSION_semigroups(0,16,2)
+instance Default a => Pointed (Arg a) where
+  point = Arg def
+#endif
+
+instance (Default k, Hashable k) => Pointed (HashMap k) where
+  point = HashMap.singleton def
+
+instance Default k => Pointed (Map k) where
+  point = Map.singleton def
+
 instance Pointed Seq where
   point = Seq.singleton
+
+instance Pointed ViewL where
+  point a = a :< Seq.empty
+
+instance Pointed ViewR where
+  point a = Seq.empty :> a
 
 instance Pointed Set where
   point = Set.singleton
@@ -134,7 +162,6 @@ instance Pointed Set where
 instance (Pointed p, Pointed q) => Pointed (Compose p q) where
   point = Compose . point . point
 
-#if MIN_VERSION_transformers(0,4,0)
 instance Pointed f => Pointed (Reverse f) where
   point = Reverse . point
 
@@ -143,7 +170,10 @@ instance Pointed f => Pointed (Backwards f) where
 
 instance Pointed (Lift f) where
   point = Pure
-#endif
+
+instance (Functor g, g ~ h) => Pointed (Rift g h) where
+  point a = Rift (fmap ($a))
+  {-# INLINE point #-}
 
 instance (Pointed p, Pointed q) => Pointed (Functor.Product p q) where
   point a = Functor.Pair (point a) (point a)
@@ -157,10 +187,8 @@ instance Pointed (ContT r m) where
 instance Pointed m => Pointed (ErrorT e m) where
   point = ErrorT . point . Right
 
-#if MIN_VERSION_transformers(0,4,0)
 instance Pointed m => Pointed (ExceptT e m) where
   point = ExceptT . point . Right
-#endif
 
 instance Pointed m => Pointed (IdentityT m) where
   point = IdentityT . point
@@ -194,3 +222,12 @@ instance Pointed m => Pointed (Strict.StateT s m) where
 
 instance Pointed m => Pointed (Static m a) where
   point = Static . point . const
+
+instance Pointed (Cokleisli w a) where
+  point = Cokleisli . const
+
+instance Pointed f => Pointed (WrappedApplicative f) where
+  point = WrapApplicative . point
+
+instance Pointed (MaybeApply f) where
+  point = MaybeApply . Right
