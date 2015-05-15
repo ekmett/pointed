@@ -1,6 +1,10 @@
+4.1.0.1
+-------
+* Allow `semigroupoids` 5.
+
 4.1
 ---
-* Added missing instances for transformers 0.4 types
+* Added missing instances for `transformers` 0.4 types
 
 4.0
 ---
