@@ -13,7 +13,10 @@ copyright:     Copyright (C) 2008-2013 Edward A. Kmett
 synopsis:      Pointed and copointed data
 description:   Pointed and copointed data
 build-type:    Simple
-extra-source-files: .travis.yml
+extra-source-files:
+  .travis.yml
+  README.markdown
+  CHANGELOG.markdown
 
 source-repository head
   type: git
