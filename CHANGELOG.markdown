@@ -1,3 +1,7 @@
+4.2.0.2
+-------
+* Added the `CHANGELOG.markdown` to `extra-source-files`, so that `hackage` can display it.
+
 4.2.0.1
 -------
 * Allow `semigroupoids` 5.
