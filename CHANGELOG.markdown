@@ -1,3 +1,7 @@
+4.2.1
+-----
+* Added (largely unsupported) options to build without almost all of the dependencies for advanced users
+
 4.2.0.2
 -------
 * Added the `CHANGELOG.markdown` to `extra-source-files`, so that `hackage` can display it.
