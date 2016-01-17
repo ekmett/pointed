@@ -31,7 +31,7 @@ import Data.Tree (Tree(..))
 #endif
 
 #ifdef MIN_VERSION_kan_extensions
-import Data.Functor.Kan.Rift
+import Data.Functor.Day.Curried
 #endif
 
 #if defined(MIN_VERSION_semigroups) || (MIN_VERSION_base(4,9,0))
@@ -173,8 +173,8 @@ instance Pointed Set where
 #endif
 
 #ifdef MIN_VERSION_kan_extensions
-instance (Functor g, g ~ h) => Pointed (Rift g h) where
-  point a = Rift (fmap ($a))
+instance (Functor g, g ~ h) => Pointed (Curried g h) where
+  point a = Curried (fmap ($a))
   {-# INLINE point #-}
 #endif
 

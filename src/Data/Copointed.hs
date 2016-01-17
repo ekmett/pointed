@@ -27,10 +27,6 @@ import Data.Functor.Coproduct
 import Data.Tree
 #endif
 
-#ifdef MIN_VERSION_kan_extensions
-import Data.Functor.Kan.Lift as Kan
-#endif
-
 #ifdef MIN_VERSION_semigroupoids
 import Data.Functor.Bind
 #endif
@@ -144,12 +140,6 @@ instance Copointed m => Copointed (Lazy.WriterT w m) where
 
 instance Copointed m => Copointed (Strict.WriterT w m) where
   copoint = fst . copoint . Strict.runWriterT
-#endif
-
-#ifdef MIN_VERSION_kan_extensions
-instance (Functor g, g ~ h) => Copointed (Kan.Lift g h) where
-  copoint x = runIdentity (runLift x (fmap Identity))
-  {-# INLINE copoint #-}
 #endif
 
 instance Copointed Semigroup.Dual where

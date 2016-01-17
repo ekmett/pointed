@@ -1,6 +1,6 @@
 name:          pointed
 category:      Data
-version:       4.2.1
+version:       5
 license:       BSD3
 cabal-version: >= 1.6
 license-file:  LICENSE
@@ -9,7 +9,7 @@ maintainer:    Edward A. Kmett <ekmett@gmail.com>
 stability:     provisional
 homepage:      http://github.com/ekmett/pointed/
 bug-reports:   http://github.com/ekmett/pointed/issues
-copyright:     Copyright (C) 2008-2013 Edward A. Kmett
+copyright:     Copyright (C) 2008-2016 Edward A. Kmett
 synopsis:      Pointed and copointed data
 description:   Pointed and copointed data
 build-type:    Simple
@@ -64,13 +64,13 @@ library
                  data-default-class >= 0.0.1 && < 0.1
 
   if flag(comonad)
-    build-depends: comonad >= 4 && < 6
+    build-depends: comonad >= 5 && < 6
 
   if flag(containers)
     build-depends: containers >= 0.4 && < 0.6
 
   if flag(kan-extensions)
-    build-depends: kan-extensions >= 4.2 && < 6
+    build-depends: kan-extensions >= 5 && < 6
 
   if flag(semigroupoids)
     build-depends: semigroupoids >= 4 && < 6
