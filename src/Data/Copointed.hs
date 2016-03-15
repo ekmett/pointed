@@ -92,9 +92,11 @@ instance Copointed w => Copointed (StoreT s w) where
   copoint (StoreT wf s) = copoint wf s
 #endif
 
-#if defined(MIN_VERSION_comonad) && !(MIN_VERSION_comonad(4,3,0))
+#ifdef MIN_VERSION_comonad
+#if !(MIN_VERSION_comonad(4,3,0))
 instance (Copointed p, Copointed q) => Copointed (Coproduct p q) where
   copoint = coproduct copoint copoint
+#endif
 #endif
 
 #ifdef MIN_VERSION_containers
