@@ -31,12 +31,13 @@ import Data.Tree
 import Data.Functor.Bind
 #endif
 
+
 #if defined(MIN_VERSION_semigroups) || (MIN_VERSION_base(4,9,0))
 import Data.Semigroup as Semigroup
 import Data.List.NonEmpty (NonEmpty(..))
-#else
-import Data.Monoid
 #endif
+
+import qualified Data.Monoid as Monoid
 
 #ifdef MIN_VERSION_tagged
 import Data.Tagged
@@ -144,11 +145,14 @@ instance Copointed m => Copointed (Strict.WriterT w m) where
   copoint = fst . copoint . Strict.runWriterT
 #endif
 
-instance Copointed Semigroup.Dual where
-  copoint = Semigroup.getDual
+instance Copointed Monoid.Dual where
+  copoint = Monoid.getDual
 
-instance Copointed Semigroup.Sum where
-  copoint = Semigroup.getSum
+instance Copointed Monoid.Sum where
+  copoint = Monoid.getSum
+
+instance Copointed Monoid.Product where
+  copoint = Monoid.getProduct
 
 #if defined(MIN_VERSION_semigroups) || (MIN_VERSION_base(4,9,0))
 instance Copointed NonEmpty where
