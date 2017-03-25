@@ -90,6 +90,13 @@ library
   if flag(unordered-containers)
     build-depends: hashable >= 1.1 && < 1.3, unordered-containers >= 0.2 && < 0.3
 
+  if impl(ghc >= 7.2)
+    build-depends:
+      ghc-prim
+    exposed-modules:
+      Data.Pointed.Generic
+      Data.Copointed.Generic
+
   exposed-modules:
     Data.Pointed
     Data.Copointed
