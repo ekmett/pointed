@@ -1,5 +1,6 @@
 {-# LANGUAGE CPP #-}
 {-# LANGUAGE TypeFamilies #-}
+{-# LANGUAGE TypeOperators #-}
 {-# OPTIONS_GHC -fno-warn-deprecations #-}
 
 #ifndef MIN_VERSION_base
@@ -86,6 +87,12 @@ import Data.Tagged
 import Data.Hashable
 import Data.HashMap.Lazy (HashMap)
 import qualified Data.HashMap.Lazy as HashMap
+#endif
+
+#if defined(MIN_VERSION_generic_deriving)
+import Generics.Deriving
+#else
+import GHC.Generics
 #endif
 
 class Pointed p where
@@ -305,3 +312,20 @@ instance (Default k, Hashable k) => Pointed (HashMap k) where
   point = HashMap.singleton def
 #endif
 
+instance Pointed U1 where
+  point _ = U1
+
+instance Pointed Par1 where
+  point = Par1
+
+instance Pointed f => Pointed (Rec1 f) where
+  point = Rec1 . point
+
+instance Pointed f => Pointed (M1 i c f) where
+  point = M1 . point
+
+instance (Pointed f, Pointed g) => Pointed (f :*: g) where
+  point a = point a :*: point a
+
+instance (Pointed f, Pointed g) => Pointed (f :.: g) where
+  point = Comp1 . point . point

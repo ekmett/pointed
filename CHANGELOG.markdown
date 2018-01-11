@@ -1,3 +1,11 @@
+next
+----
+* Add `Pointed` and `Copointed` instances for various types from `GHC.Generics`.
+
+5
+-
+* Require `kan-extensions-5`.
+
 4.2.1
 -----
 * Added (largely unsupported) options to build without almost all of the dependencies for advanced users

@@ -1,5 +1,6 @@
 {-# LANGUAGE CPP #-}
 {-# LANGUAGE TypeFamilies #-}
+{-# LANGUAGE TypeOperators #-}
 #if defined(__GLASGOW_HASKELL__) && __GLASGOW_HASKELL__ >= 702
 {-# LANGUAGE Safe #-}
 #endif
@@ -59,6 +60,12 @@ import Control.Applicative.Lift as Applicative
 import Control.Monad.Trans.Identity
 import qualified Control.Monad.Trans.Writer.Lazy as Lazy
 import qualified Control.Monad.Trans.Writer.Strict as Strict
+#endif
+
+#if defined(MIN_VERSION_generic_deriving)
+import Generics.Deriving
+#else
+import GHC.Generics
 #endif
 
 -- | 'Copointed' does not require a 'Functor', as the only relationship
@@ -196,3 +203,18 @@ instance Copointed f => Copointed (MaybeApply f) where
   copoint (MaybeApply (Right a)) = a
 #endif
 
+instance Copointed Par1 where
+  copoint = unPar1
+
+instance Copointed f => Copointed (M1 i c f) where
+  copoint = copoint . unM1
+
+instance Copointed f => Copointed (Rec1 f) where
+  copoint = copoint . unRec1
+
+instance (Copointed f, Copointed g) => Copointed (f :+: g) where
+  copoint (L1 a) = copoint a
+  copoint (R1 a) = copoint a
+
+instance (Copointed f, Copointed g) => Copointed (f :.: g) where
+  copoint = copoint . copoint . unComp1
