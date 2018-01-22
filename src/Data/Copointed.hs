@@ -1,9 +1,6 @@
 {-# LANGUAGE CPP #-}
 {-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE TypeOperators #-}
-#if defined(__GLASGOW_HASKELL__) && __GLASGOW_HASKELL__ >= 702
-{-# LANGUAGE Safe #-}
-#endif
 
 #ifndef MIN_VERSION_base
 #define MIN_VERSION_base(x,y,z) 0

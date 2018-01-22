@@ -1,6 +1,7 @@
 next
 ----
 * Add `Pointed` and `Copointed` instances for various types from `GHC.Generics`.
+* Do not attempt to support Safe Haskell anymore.
 
 5
 -
