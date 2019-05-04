@@ -15,6 +15,7 @@ import Data.Default.Class
 import Control.Comonad.Trans.Env
 import Control.Comonad.Trans.Store
 import Control.Comonad.Trans.Traced
+import Control.Comonad
 
 #if !(MIN_VERSION_comonad(4,3,0))
 import Data.Functor.Coproduct
@@ -29,6 +30,13 @@ import Data.Tree
 import Data.Functor.Bind
 #endif
 
+#ifdef MIN_VERSION_kan_extensions
+import Control.Comonad.Density
+import Data.Functor.Coyoneda
+import Data.Functor.Day
+import Data.Functor.Yoneda
+import qualified Data.Functor.Invariant.Day as ID
+#endif
 
 #if defined(MIN_VERSION_semigroups) || (MIN_VERSION_base(4,9,0))
 import Data.Semigroup as Semigroup
@@ -126,6 +134,23 @@ instance (Copointed p, Copointed q) => Copointed (Compose p q) where
 instance (Copointed f, Copointed g) => Copointed (F.Sum f g) where
   copoint (F.InL m) = copoint m
   copoint (F.InR m) = copoint m
+#endif
+
+#ifdef MIN_VERSION_kan_extensions
+instance Copointed (Density f) where
+  copoint = extract
+
+instance Copointed f => Copointed (Coyoneda f) where
+  copoint (Coyoneda f x) = f (copoint x)
+
+instance (Copointed f, Copointed g) => Copointed (Day f g) where
+  copoint (Day x y f) = f (copoint x) (copoint y)
+
+instance (Copointed f, Copointed g) => Copointed (ID.Day f g) where
+  copoint (ID.Day x y f _) = f (copoint x) (copoint y)
+
+instance Copointed f => Copointed (Yoneda f) where
+  copoint = copoint . ($ id) . runYoneda
 #endif
 
 #ifdef MIN_VERSION_transformers
