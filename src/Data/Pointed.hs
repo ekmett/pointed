@@ -29,7 +29,14 @@ import Data.Tree (Tree(..))
 #endif
 
 #ifdef MIN_VERSION_kan_extensions
+import Control.Comonad.Density
+import Control.Monad.Codensity
+import Data.Functor.Coyoneda
+import Data.Functor.Day
 import Data.Functor.Day.Curried
+import Data.Functor.Kan.Lan
+import Data.Functor.Yoneda
+import qualified Data.Functor.Invariant.Day as ID
 #endif
 
 #if defined(MIN_VERSION_semigroups) || (MIN_VERSION_base(4,9,0))
@@ -179,6 +186,34 @@ instance Pointed Set where
 #ifdef MIN_VERSION_kan_extensions
 instance (Functor g, g ~ h) => Pointed (Curried g h) where
   point a = Curried (fmap ($a))
+  {-# INLINE point #-}
+
+instance (Pointed f, Pointed g) => Pointed (Day f g) where
+  point a = Day (point ()) (point ()) (\_ _ -> a)
+  {-# INLINE point #-}
+
+instance Pointed f => Pointed (Coyoneda f) where
+  point a = Coyoneda (const a) (point ())
+  {-# INLINE point #-}
+
+instance (Pointed f, Functor f) => Pointed (Yoneda f) where
+  point a = Yoneda $ \f -> f a <$ point ()
+  {-# INLINE point #-}
+
+instance Pointed f => Pointed (Density f) where
+  point a = Density (const a) (point ())
+  {-# INLINE point #-}
+
+instance Pointed (Codensity f) where
+  point = pure
+  {-# INLINE point #-}
+
+instance (Pointed f, Pointed g) => Pointed (ID.Day f g) where
+  point a = ID.Day (point ()) (point ()) (\_ _ -> a) (const ((),()))
+  {-# INLINE point #-}
+
+instance (Functor g, Pointed h) => Pointed (Lan g h) where
+  point a = Lan (const a) (point ())
   {-# INLINE point #-}
 #endif
 
