@@ -13,6 +13,7 @@ import Control.Arrow
 import Control.Applicative
 import qualified Data.Monoid as Monoid
 import Data.Default.Class
+import Data.Functor.Contravariant
 
 #ifdef MIN_VERSION_comonad
 import Control.Comonad
@@ -29,7 +30,17 @@ import Data.Tree (Tree(..))
 #endif
 
 #ifdef MIN_VERSION_kan_extensions
+import Control.Comonad.Density
+import Control.Monad.Codensity
+import Data.Functor.Coyoneda
+import Data.Functor.Day
 import Data.Functor.Day.Curried
+import Data.Functor.Kan.Lan
+import Data.Functor.Yoneda
+import qualified Data.Functor.Contravariant.Coyoneda as Contra
+import qualified Data.Functor.Contravariant.Day as Contra
+import qualified Data.Functor.Contravariant.Yoneda as Contra
+import qualified Data.Functor.Invariant.Day as ID
 #endif
 
 #if defined(MIN_VERSION_semigroups) || (MIN_VERSION_base(4,9,0))
@@ -179,6 +190,46 @@ instance Pointed Set where
 #ifdef MIN_VERSION_kan_extensions
 instance (Functor g, g ~ h) => Pointed (Curried g h) where
   point a = Curried (fmap ($a))
+  {-# INLINE point #-}
+
+instance (Pointed f, Pointed g) => Pointed (Day f g) where
+  point a = Day (point ()) (point ()) (\_ _ -> a)
+  {-# INLINE point #-}
+
+instance (Pointed f, Pointed g) => Pointed (Contra.Day f g) where
+  point a = Contra.Day (point a) (point a) (\x -> (x, x))
+  {-# INLINE point #-}
+
+instance Pointed f => Pointed (Coyoneda f) where
+  point a = Coyoneda (const a) (point ())
+  {-# INLINE point #-}
+
+instance Pointed f => Pointed (Contra.Coyoneda f) where
+  point a = Contra.Coyoneda id (point a)
+  {-# INLINE point #-}
+
+instance (Pointed f, Functor f) => Pointed (Yoneda f) where
+  point a = Yoneda $ \f -> f <$> point a
+  {-# INLINE point #-}
+
+instance (Pointed f, Contravariant f) => Pointed (Contra.Yoneda f) where
+  point a = Contra.Yoneda $ \f -> contramap f (point a)
+  {-# INLINE point #-}
+
+instance Pointed f => Pointed (Density f) where
+  point a = Density (const a) (point ())
+  {-# INLINE point #-}
+
+instance Pointed (Codensity f) where
+  point = pure
+  {-# INLINE point #-}
+
+instance (Pointed f, Pointed g) => Pointed (ID.Day f g) where
+  point a = ID.Day (point ()) (point ()) (\_ _ -> a) (const ((),()))
+  {-# INLINE point #-}
+
+instance (Functor g, Pointed h) => Pointed (Lan g h) where
+  point a = Lan (const a) (point ())
   {-# INLINE point #-}
 #endif
 
