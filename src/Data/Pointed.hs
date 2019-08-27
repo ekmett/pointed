@@ -13,6 +13,7 @@ import Control.Arrow
 import Control.Applicative
 import qualified Data.Monoid as Monoid
 import Data.Default.Class
+import GHC.Generics
 
 #ifdef MIN_VERSION_comonad
 import Control.Comonad
@@ -87,12 +88,6 @@ import Data.Tagged
 import Data.Hashable
 import Data.HashMap.Lazy (HashMap)
 import qualified Data.HashMap.Lazy as HashMap
-#endif
-
-#if defined(MIN_VERSION_generic_deriving)
-import Generics.Deriving
-#else
-import GHC.Generics
 #endif
 
 class Pointed p where

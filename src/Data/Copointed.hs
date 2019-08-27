@@ -10,6 +10,7 @@ module Data.Copointed where
 
 import Control.Applicative
 import Data.Default.Class
+import GHC.Generics
 
 #ifdef MIN_VERSION_comonad
 import Control.Comonad.Trans.Env
@@ -57,12 +58,6 @@ import Control.Applicative.Lift as Applicative
 import Control.Monad.Trans.Identity
 import qualified Control.Monad.Trans.Writer.Lazy as Lazy
 import qualified Control.Monad.Trans.Writer.Strict as Strict
-#endif
-
-#if defined(MIN_VERSION_generic_deriving)
-import Generics.Deriving
-#else
-import GHC.Generics
 #endif
 
 -- | 'Copointed' does not require a 'Functor', as the only relationship
