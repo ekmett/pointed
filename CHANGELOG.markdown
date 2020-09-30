@@ -1,3 +1,7 @@
+5.0.2 [2020.09.30]
+------------------
+* Drop unused `generic-deriving` dependency.
+
 5.0.1
 -----
 * Add `Pointed` and `Copointed` instances for various types from `GHC.Generics`.
