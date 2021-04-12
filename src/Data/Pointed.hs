@@ -204,9 +204,6 @@ instance Pointed Semigroup.Max where
 instance Pointed Semigroup.Min where
   point = Semigroup.Min
 
-instance Pointed Option where
-  point = Option . Just
-
 instance Pointed WrappedMonoid where
   point = WrapMonoid
 #endif
