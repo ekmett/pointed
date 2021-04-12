@@ -35,7 +35,7 @@ import Data.Functor.Day.Curried
 
 #if defined(MIN_VERSION_semigroups) || (MIN_VERSION_base(4,9,0))
 import Data.Semigroup as Semigroup
-import Data.List.NonEmpty
+import Data.List.NonEmpty (NonEmpty(..))
 #endif
 
 #ifdef MIN_VERSION_semigroupoids
