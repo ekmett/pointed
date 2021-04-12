@@ -173,7 +173,7 @@ instance Pointed Set where
 
 #ifdef MIN_VERSION_kan_extensions
 instance (Functor g, g ~ h) => Pointed (Curried g h) where
-  point a = Curried (fmap ($a))
+  point a = Curried (fmap ($ a))
   {-# INLINE point #-}
 #endif
 
