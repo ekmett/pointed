@@ -1,7 +1,3 @@
-5.1 [????.??.??]
-----------------
-* Remove `Pointed` instance for `Option`, which was removed in `base-4.16`.
-
 5.0.2 [2020.09.30]
 ------------------
 * Drop unused `generic-deriving` dependency.
