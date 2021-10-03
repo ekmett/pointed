@@ -1,3 +1,7 @@
+next [????.??.??]
+-----------------
+* Allow building with `base-4.16` (GHC 9.2).
+
 5.0.2 [2020.09.30]
 ------------------
 * Drop unused `generic-deriving` dependency.

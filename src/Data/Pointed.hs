@@ -204,8 +204,10 @@ instance Pointed Semigroup.Max where
 instance Pointed Semigroup.Min where
   point = Semigroup.Min
 
+# if !(MIN_VERSION_base(4,16,0))
 instance Pointed Option where
   point = Option . Just
+# endif
 
 instance Pointed WrappedMonoid where
   point = WrapMonoid
