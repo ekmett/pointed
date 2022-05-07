@@ -68,12 +68,15 @@ import qualified Control.Monad.Trans.State.Strict as Strict
 import Control.Applicative.Backwards
 import Control.Applicative.Lift
 import Control.Monad.Trans.Cont
-import Control.Monad.Trans.Error
 import Control.Monad.Trans.Except
-import Control.Monad.Trans.List
 import Control.Monad.Trans.Maybe
 import Control.Monad.Trans.Identity
 import Control.Monad.Trans.Reader
+
+# if !(MIN_VERSION_transformers(0,6,0))
+import Control.Monad.Trans.Error
+import Control.Monad.Trans.List
+# endif
 #endif
 
 #if defined(MIN_VERSION_tagged) || (MIN_VERSION_base(4,7,0))
@@ -255,17 +258,11 @@ instance (Pointed p, Pointed q) => Pointed (Functor.Product p q) where
 instance Pointed (ContT r m) where
   point a = ContT ($ a)
 
-instance Pointed m => Pointed (ErrorT e m) where
-  point = ErrorT . point . Right
-
 instance Pointed m => Pointed (ExceptT e m) where
   point = ExceptT . point . Right
 
 instance Pointed m => Pointed (IdentityT m) where
   point = IdentityT . point
-
-instance Pointed m => Pointed (ListT m) where
-  point = ListT . point . point
 
 instance Pointed m => Pointed (MaybeT m) where
   point = MaybeT . point . point
@@ -302,6 +299,14 @@ instance Pointed f => Pointed (Backwards f) where
 
 instance Pointed (Lift f) where
   point = Pure
+
+# if !(MIN_VERSION_transformers(0,6,0))
+instance Pointed m => Pointed (ErrorT e m) where
+  point = ErrorT . point . Right
+
+instance Pointed m => Pointed (ListT m) where
+  point = ListT . point . point
+# endif
 #endif
 
 #if defined(MIN_VERSION_unordered_containers)

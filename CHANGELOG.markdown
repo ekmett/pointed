@@ -1,3 +1,7 @@
+next [????.??.??]
+-----------------
+* Allow building with `transformers-0.6.*`.
+
 5.0.3 [2021.11.01]
 ------------------
 * Allow building with `base-4.16` (GHC 9.2).
