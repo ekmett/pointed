@@ -87,7 +87,7 @@ library
     build-depends: kan-extensions >= 5 && < 6
 
   if flag(semigroupoids)
-    build-depends: semigroupoids >= 4 && < 6
+    build-depends: semigroupoids >= 4 && < 7
 
   if flag(semigroups)
     build-depends: semigroups >= 0.8.3.1 && < 1
