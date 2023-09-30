@@ -81,7 +81,7 @@ library
     build-depends: comonad >= 5 && < 6
 
   if flag(containers)
-    build-depends: containers >= 0.4 && < 0.7
+    build-depends: containers >= 0.4 && < 0.8
 
   if flag(kan-extensions)
     build-depends: kan-extensions >= 5 && < 6
