@@ -1,3 +1,9 @@
+next [????.??.??]
+-----------------
+* Require building with GHC 8.0 or later.
+* Remove the `-fsemigroups` `cabal` flag, as `pointed` no longer needs to depend
+  on the `semigroups` library for backwards compatibility.
+
 5.0.4 [2022.05.07]
 ------------------
 * Allow building with `transformers-0.6.*`.

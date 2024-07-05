@@ -1,7 +1,7 @@
 {-# LANGUAGE CPP #-}
 {-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE TypeOperators #-}
-{-# OPTIONS_GHC -fno-warn-deprecations #-}
+{-# OPTIONS_GHC -Wno-deprecations #-}
 
 #ifndef MIN_VERSION_base
 #define MIN_VERSION_base(x,y,z) 0
@@ -33,10 +33,8 @@ import Data.Tree (Tree(..))
 import Data.Functor.Day.Curried
 #endif
 
-#if defined(MIN_VERSION_semigroups) || (MIN_VERSION_base(4,9,0))
 import Data.Semigroup as Semigroup
 import Data.List.NonEmpty (NonEmpty(..))
-#endif
 
 #ifdef MIN_VERSION_semigroupoids
 import Data.Functor.Bind
@@ -47,14 +45,10 @@ import Data.Semigroupoid.Static
 import Control.Concurrent.STM
 #endif
 
-#if defined(MIN_VERSION_transformers) || (MIN_VERSION_base(4,8,0))
 import Data.Functor.Identity
-#endif
 
-#if defined(MIN_VERSION_transformers) || (MIN_VERSION_base(4,9,0))
 import Data.Functor.Compose
 import qualified Data.Functor.Product as Functor
-#endif
 
 #ifdef MIN_VERSION_transformers
 import Data.Functor.Constant
@@ -79,9 +73,7 @@ import Control.Monad.Trans.List
 # endif
 #endif
 
-#if defined(MIN_VERSION_tagged) || (MIN_VERSION_base(4,7,0))
 import Data.Proxy
-#endif
 
 #ifdef MIN_VERSION_tagged
 import Data.Tagged
@@ -111,10 +103,8 @@ instance Pointed IO where
 instance Pointed ZipList where
   point = pure
 
-#if MIN_VERSION_base(4,8,0) || defined(MIN_VERSION_transformers)
 instance Pointed Identity where
   point = Identity
-#endif
 
 instance Pointed ((->)e) where
   point = const
@@ -191,7 +181,6 @@ instance Pointed (MaybeApply f) where
   point = MaybeApply . Right
 #endif
 
-#if defined(MIN_VERSION_semigroups) || (MIN_VERSION_base(4,9,0))
 instance Pointed NonEmpty where
   point a = a :| []
 
@@ -207,52 +196,35 @@ instance Pointed Semigroup.Max where
 instance Pointed Semigroup.Min where
   point = Semigroup.Min
 
-# if !(MIN_VERSION_base(4,16,0))
+#if !(MIN_VERSION_base(4,16,0))
 instance Pointed Option where
   point = Option . Just
-# endif
+#endif
 
 instance Pointed WrappedMonoid where
   point = WrapMonoid
-#endif
 
-#ifdef MIN_VERSION_semigroups
-#if MIN_VERSION_semigroups(0,16,2)
-#define HAVE_ARG 1
-#endif
-#elif MIN_VERSION_base(4,9,0)
-#define HAVE_ARG 1
-#endif
-
-#ifdef HAVE_ARG
 instance Default a => Pointed (Arg a) where
   point = Arg def
-#endif
 
 #ifdef MIN_VERSION_stm
 instance Pointed STM where
   point = return
 #endif
 
-#if defined(MIN_VERSION_tagged) || (MIN_VERSION_base(4,7,0))
 instance Pointed Proxy where
   point _ = Proxy
-#endif
 
 #ifdef MIN_VERSION_tagged
 instance Pointed (Tagged a) where
   point = Tagged
 #endif
 
-#if defined(MIN_VERSION_transformers) || (MIN_VERSION_base(4,9,0))
 instance (Pointed p, Pointed q) => Pointed (Compose p q) where
   point = Compose . point . point
-#endif
 
-#if defined(MIN_VERSION_transformers) || (MIN_VERSION_base(4,9,0))
 instance (Pointed p, Pointed q) => Pointed (Functor.Product p q) where
   point a = Functor.Pair (point a) (point a)
-#endif
 
 #ifdef MIN_VERSION_transformers
 instance Pointed (ContT r m) where

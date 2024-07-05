@@ -2,10 +2,6 @@
 {-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE TypeOperators #-}
 
-#ifndef MIN_VERSION_base
-#define MIN_VERSION_base(x,y,z) 0
-#endif
-
 module Data.Copointed where
 
 import Control.Applicative
@@ -31,10 +27,8 @@ import Data.Functor.Bind
 #endif
 
 
-#if defined(MIN_VERSION_semigroups) || (MIN_VERSION_base(4,9,0))
 import Data.Semigroup as Semigroup
 import Data.List.NonEmpty (NonEmpty(..))
-#endif
 
 import qualified Data.Monoid as Monoid
 
@@ -42,14 +36,9 @@ import qualified Data.Monoid as Monoid
 import Data.Tagged
 #endif
 
-#if defined(MIN_VERSION_transformers) || (MIN_VERSION_base(4,8,0))
 import Data.Functor.Identity
-#endif
-
-#if defined(MIN_VERSION_transformers) || (MIN_VERSION_base(4,9,0))
 import Data.Functor.Sum as F
 import Data.Functor.Compose
-#endif
 
 #ifdef MIN_VERSION_transformers
 import Data.Functor.Reverse
@@ -109,19 +98,15 @@ instance Copointed (Tagged a) where
   copoint = unTagged
 #endif
 
-#if defined(MIN_VERSION_transformers) || (MIN_VERSION_base(4,8,0))
 instance Copointed Identity where
   copoint = runIdentity
-#endif
 
-#if defined(MIN_VERSION_transformers) || (MIN_VERSION_base(4,9,0))
 instance (Copointed p, Copointed q) => Copointed (Compose p q) where
   copoint = copoint . copoint . getCompose
 
 instance (Copointed f, Copointed g) => Copointed (F.Sum f g) where
   copoint (F.InL m) = copoint m
   copoint (F.InR m) = copoint m
-#endif
 
 #ifdef MIN_VERSION_transformers
 instance Copointed f => Copointed (Backwards f) where
@@ -153,7 +138,6 @@ instance Copointed Monoid.Sum where
 instance Copointed Monoid.Product where
   copoint = Monoid.getProduct
 
-#if defined(MIN_VERSION_semigroups) || (MIN_VERSION_base(4,9,0))
 instance Copointed NonEmpty where
   copoint ~(a :| _) = a
 
@@ -171,20 +155,9 @@ instance Copointed Semigroup.Min where
 
 instance Copointed WrappedMonoid where
   copoint = unwrapMonoid
-#endif
 
-#ifdef MIN_VERSION_semigroups
-#if MIN_VERSION_semigroups(0,16,2)
-#define HAVE_ARG 1
-#endif
-#elif MIN_VERSION_base(4,9,0)
-#define HAVE_ARG 1
-#endif
-
-#ifdef HAVE_ARG
 instance Copointed (Arg a) where
   copoint (Arg _ b) = b
-#endif
 
 #ifdef MIN_VERSION_semigroupoids
 instance Copointed f => Copointed (WrappedApplicative f) where

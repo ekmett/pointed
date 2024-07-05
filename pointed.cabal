@@ -13,11 +13,7 @@ copyright:     Copyright (C) 2008-2016 Edward A. Kmett
 synopsis:      Pointed and copointed data
 description:   Pointed and copointed data.
 build-type:    Simple
-tested-with:   GHC == 7.4.2
-             , GHC == 7.6.3
-             , GHC == 7.8.4
-             , GHC == 7.10.3
-             , GHC == 8.0.2
+tested-with:   GHC == 8.0.2
              , GHC == 8.2.2
              , GHC == 8.4.4
              , GHC == 8.6.5
@@ -25,8 +21,10 @@ tested-with:   GHC == 7.4.2
              , GHC == 8.10.7
              , GHC == 9.0.2
              , GHC == 9.2.8
-             , GHC == 9.4.5
-             , GHC == 9.6.2
+             , GHC == 9.4.8
+             , GHC == 9.6.6
+             , GHC == 9.8.2
+             , GHC == 9.10.1
 extra-source-files:
   README.markdown
   CHANGELOG.markdown
@@ -51,10 +49,6 @@ flag semigroupoids
   description: You can disable the use of the `semigroupoids` package using `-f-semigroupoids`.
   default: True
   manual: True
-flag semigroups
-  description: You can disable the use of the `semigroups` package using `-f-semigroups`.
-  default: True
-  manual: True
 flag stm
   description: You can disable the use of the `stm` package using `-f-stm`.
   default: True
@@ -73,11 +67,8 @@ flag unordered-containers
   manual: True
 
 library
-  build-depends: base >= 4.5 && < 5,
+  build-depends: base >= 4.9 && < 5,
                  data-default-class >= 0.0.1 && < 0.2
-
-  if impl(ghc >= 7.2 && < 7.6)
-    build-depends: ghc-prim
 
   if flag(comonad)
     build-depends: comonad >= 5 && < 6
@@ -90,9 +81,6 @@ library
 
   if flag(semigroupoids)
     build-depends: semigroupoids >= 4 && < 7
-
-  if flag(semigroups)
-    build-depends: semigroups >= 0.8.3.1 && < 1
 
   if flag(stm)
     build-depends: stm >= 2.1.2.1 && < 2.6
