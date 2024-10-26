@@ -1,5 +1,5 @@
-next [????.??.??]
------------------
+5.0.5 [2024.10.26]
+------------------
 * Require building with GHC 8.0 or later.
 * Remove the `-fsemigroups` `cabal` flag, as `pointed` no longer needs to depend
   on the `semigroups` library for backwards compatibility.
