@@ -68,7 +68,7 @@ flag unordered-containers
 
 library
   build-depends: base >= 4.9 && < 5,
-                 data-default-class >= 0.0.1 && < 0.2
+                 data-default-class >= 0.0.1 && < 0.3
 
   if flag(comonad)
     build-depends: comonad >= 5 && < 6
