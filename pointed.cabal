@@ -31,7 +31,7 @@ extra-source-files:
 
 source-repository head
   type: git
-  location: git://github.com/ekmett/pointed.git
+  location: https://github.com/ekmett/pointed.git
 
 flag comonad
   description: You can disable the use of the `comonad` package using `-f-transformers`.
